@@ -2,7 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "ignoreCommand": "echo 'Skipping backend files for frontend-only deployment'",
   "functions": {
     "api/**/*.js": {
       "excludeFiles": "**"
