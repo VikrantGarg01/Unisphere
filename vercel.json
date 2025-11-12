@@ -1,5 +1,24 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "ignoreCommand": "echo 'Skipping backend files for frontend-only deployment'",
+  "functions": {
+    "api/**/*.js": {
+      "excludeFiles": "**"
+    },
+    "server.js": {
+      "excludeFiles": "**"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://unisphere-production-1e25.up.railway.app/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
