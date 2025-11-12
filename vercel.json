@@ -8,7 +8,10 @@
       "dest": "https://unisphere-production-1e25.up.railway.app/api/$1"
     },
     {
-      "src": "/(.*)",
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
       "dest": "/index.html"
     }
   ]
