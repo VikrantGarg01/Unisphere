@@ -5,9 +5,6 @@
   "functions": {
     "api/**/*.js": {
       "excludeFiles": "**"
-    },
-    "server.js": {
-      "excludeFiles": "**"
     }
   },
   "routes": [
