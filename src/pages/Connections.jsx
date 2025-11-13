@@ -21,20 +21,22 @@ const Connections = () => {
       
       // Fetch followers
       const followersResponse = await api.get(`/followers/${user.id}`)
-      setFollowers(followersResponse.data)
+      setFollowers(Array.isArray(followersResponse.data) ? followersResponse.data : [])
       
       // Fetch following
       const followingResponse = await api.get(`/following/${user.id}`)
-      setFollowing(followingResponse.data)
+      setFollowing(Array.isArray(followingResponse.data) ? followingResponse.data : [])
       
       // Fetch stats
-      const statsResponse = await api.get(`/stats/${user.id}`)
+      const statsResponse = await api.get(`/follow/stats/${user.id}`)
       setStats({
-        followersCount: statsResponse.data.followersCount,
-        followingCount: statsResponse.data.followingCount
+        followersCount: statsResponse.data.followersCount || 0,
+        followingCount: statsResponse.data.followingCount || 0
       })
     } catch (error) {
       console.error('Error fetching connections:', error)
+      setFollowers([])
+      setFollowing([])
     } finally {
       setLoading(false)
     }

@@ -79,8 +79,8 @@ app.put('/api/posts/update', updatePostRoute);
 // Follow routes
 app.post('/api/follow/:id', followToggleRoute);
 app.get('/api/followers/:id', followersRoute);
-app.get('/api/follow/following', followingRoute);
-app.get('/api/stats/:id', followStatsRoute);
+app.get('/api/following/:id', followingRoute);
+app.get('/api/follow/stats/:id', followStatsRoute);
 
 // User routes
 app.get('/api/users/suggestions', suggestionsRoute);
