@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import Sidebar from '../components/Sidebar'
 import Suggestions from '../components/Suggestions'
 import api from '../api'
+import { Link } from 'react-router-dom'
 
 const Connections = () => {
   const { user } = useAuth()
@@ -149,11 +150,13 @@ const Connections = () => {
                       <div key={follower.id} className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4 flex-1 min-w-0">
-                            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 text-white font-semibold text-lg">
+                            <Link to={`/profile/${follower.username}`} className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 text-white font-semibold text-lg hover:opacity-80 transition-opacity">
                               {follower.username.charAt(0).toUpperCase()}
-                            </div>
+                            </Link>
                             <div className="min-w-0 flex-1">
-                              <p className="font-semibold text-gray-900 text-lg truncate">{follower.username}</p>
+                              <Link to={`/profile/${follower.username}`} className="font-semibold text-gray-900 text-lg truncate hover:underline">
+                                {follower.username}
+                              </Link>
                               <p className="text-sm text-gray-500 truncate">{follower.handle}</p>
                               {follower.affiliation && (
                                 <p className="text-xs text-gray-400 mt-1 flex items-center">
@@ -199,15 +202,17 @@ const Connections = () => {
                       <div key={person.id} className="bg-white rounded-2xl border-2 border-gray-100 p-6 hover:border-gray-200 hover:shadow-md transition-all">
                         <div className="flex items-center justify-between">
                           <div className="flex items-start space-x-4 flex-1">
-                            <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-gray-200">
+                            <Link to={`/profile/${person.username}`} className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden bg-gray-200 hover:opacity-80 transition-opacity">
                               <img 
                                 src={`https://ui-avatars.com/api/?name=${encodeURIComponent(person.username)}&background=random&size=64&bold=true`}
                                 alt={person.username}
                                 className="w-full h-full object-cover"
                               />
-                            </div>
+                            </Link>
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-bold text-gray-900 text-base mb-1">{person.username}</h3>
+                              <Link to={`/profile/${person.username}`} className="font-bold text-gray-900 text-base mb-1 hover:underline">
+                                {person.username}
+                              </Link>
                               <p className="text-sm text-gray-500 mb-2">@{person.username}</p>
                               {person.bio && (
                                 <p className="text-sm text-gray-600 line-clamp-1">{person.bio}</p>
