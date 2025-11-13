@@ -1,5 +1,5 @@
-import { authMiddleware } from '../../lib/auth.js'
-import { query } from '../../lib/db.js'
+import { authMiddleware } from '../lib/auth.js'
+import { query } from '../lib/db.js'
 
 async function handler(req, res) {
   const { conversationId } = req.query
