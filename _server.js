@@ -18,43 +18,43 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Import API routes
-import registerRoute from './api/auth/register.js';
-import loginRoute from './api/auth/login.js';
-import meRoute from './api/auth/me.js';
-import sendOtpRoute from './api/auth/send-otp.js';
-import verifyOtpRoute from './api/auth/verify-otp.js';
-import forgotPasswordRoute from './api/auth/forgot-password.js';
-import resetPasswordRoute from './api/auth/reset-password.js';
+import registerRoute from './_api/auth/register.js';
+import loginRoute from './_api/auth/login.js';
+import meRoute from './_api/auth/me.js';
+import sendOtpRoute from './_api/auth/send-otp.js';
+import verifyOtpRoute from './_api/auth/verify-otp.js';
+import forgotPasswordRoute from './_api/auth/forgot-password.js';
+import resetPasswordRoute from './_api/auth/reset-password.js';
 
 // Import posts routes
-import createPostRoute from './api/posts/create.js';
-import feedRoute from './api/posts/feed.js';
-import exploreRoute from './api/posts/explore.js';
-import deletePostRoute from './api/posts/delete.js';
-import updatePostRoute from './api/posts/update.js';
+import createPostRoute from './_api/posts/create.js';
+import feedRoute from './_api/posts/feed.js';
+import exploreRoute from './_api/posts/explore.js';
+import deletePostRoute from './_api/posts/delete.js';
+import updatePostRoute from './_api/posts/update.js';
 
 // Import follow routes (use existing Express-compatible handlers)
-import followToggleRoute from './api/follow/[id].js';
-import followersRoute from './api/followers/[id].js';
-import followingRoute from './api/follow/following.js';
-import followStatsRoute from './api/follow/stats.js';
+import followToggleRoute from './_api/follow/[id].js';
+import followersRoute from './_api/followers/[id].js';
+import followingRoute from './_api/follow/following.js';
+import followStatsRoute from './_api/follow/stats.js';
 
 // Import user routes
-import suggestionsRoute from './api/users/suggestions.js';
-import updateProfileRoute from './api/users/update-profile.js';
-import userPostsRoute from './api/users/[id]/posts.js';
+import suggestionsRoute from './_api/users/suggestions.js';
+import updateProfileRoute from './_api/users/update-profile.js';
+import userPostsRoute from './_api/users/[id]/posts.js';
 
 // Import messages routes
-import conversationsRoute from './api/messages/conversations.js';
-import startConversationRoute from './api/messages/start.js';
-import getMessagesRoute from './api/messages/[conversationId].js';
-import sendMessageRoute from './api/messages/[conversationId]/send.js';
-import markAsReadRoute from './api/messages/[conversationId]/read.js';
+import conversationsRoute from './_api/messages/conversations.js';
+import startConversationRoute from './_api/messages/start.js';
+import getMessagesRoute from './_api/messages/[conversationId].js';
+import sendMessageRoute from './_api/messages/[conversationId]/send.js';
+import markAsReadRoute from './_api/messages/[conversationId]/read.js';
 
 // Import notifications routes
-import notificationsRoute from './api/notifications/index.js';
-import readNotificationRoute from './api/notifications/read.js';
-import unreadCountRoute from './api/notifications/unread-count.js';
+import notificationsRoute from './_api/notifications/index.js';
+import readNotificationRoute from './_api/notifications/read.js';
+import unreadCountRoute from './_api/notifications/unread-count.js';
 
 // Auth routes
 app.post('/api/auth/register', registerRoute);
