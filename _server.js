@@ -121,5 +121,5 @@ if (process.env.NODE_ENV === 'production') {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n✅ API Server running on http://localhost:${PORT}`);
-  console.log(`📧 SMTP configured: ${process.env.SMTP_USER || 'Development mode (console only)'}\n`);
+  console.log(`📧 SMTP configured: ${process.env.BREVO_SMTP_KEY ? 'Brevo (smtp-relay.brevo.com)' : 'Development mode (console only)'}\n`);
 });
