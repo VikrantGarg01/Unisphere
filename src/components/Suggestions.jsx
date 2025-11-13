@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { followUser } from '../api/follow'
 import axios from 'axios'
 
@@ -73,7 +74,10 @@ const Suggestions = () => {
             ) : (
               suggestedUsers.map((user) => (
                 <div key={user.id} className="py-3 flex items-center justify-between">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <Link 
+                    to={`/profile/${user.username}`}
+                    className="flex items-center space-x-3 flex-1 min-w-0 hover:opacity-80 transition-opacity"
+                  >
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center flex-shrink-0 text-white font-semibold">
                       {user.profile_image ? (
                         <img src={user.profile_image} alt={user.username} className="w-full h-full rounded-full object-cover" />
@@ -82,10 +86,10 @@ const Suggestions = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-gray-900 truncate">{user.username}</p>
+                      <p className="font-medium text-sm text-gray-900 truncate hover:underline">{user.username}</p>
                       <p className="text-xs text-gray-500 truncate">@{user.username}</p>
                     </div>
-                  </div>
+                  </Link>
                   <button 
                     onClick={() => handleFollow(user.id)}
                     disabled={followingIds.has(user.id)}

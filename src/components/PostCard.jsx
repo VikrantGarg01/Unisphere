@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { deletePost, updatePost } from '../api/posts'
 import { useAuth } from '../context/AuthContext'
 
@@ -51,16 +52,19 @@ const PostCard = ({ post, onUpdate }) => {
     <div className="bg-white rounded-xl shadow-sm border border-gray-200">
       {/* Post Header */}
       <div className="flex items-center justify-between p-4">
-        <div className="flex items-center space-x-3">
+        <Link 
+          to={`/profile/${post.user.username}`}
+          className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+        >
           <img 
             src={post.user.profile_image || `https://ui-avatars.com/api/?name=${post.user.username}&background=3b82f6&color=fff&size=48`}
             alt={post.user.username}
-            className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+            className="w-12 h-12 rounded-full object-cover flex-shrink-0 cursor-pointer"
           />
           <div>
-            <p className="font-semibold text-gray-900">{post.user.username}</p>
+            <p className="font-semibold text-gray-900 hover:underline">{post.user.username}</p>
           </div>
-        </div>
+        </Link>
         {user.id === post.user.id && (
           <div className="relative">
             <button 
