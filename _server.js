@@ -84,9 +84,12 @@ app.get('/api/stats/:id', followStatsRoute);
 
 // User routes
 app.get('/api/users/suggestions', suggestionsRoute);
+app.get('/api/users/profile/:username', (req, res) => {
+  req.url = `/api/users/profile/${req.params.username}`;
+  userProfileRoute(req, res);
+});
 app.put('/api/users/profile', updateProfileRoute);
 app.get('/api/users/:id/posts', userPostsRoute);
-app.get('/api/users/profile/:username', userProfileRoute);
 
 // Messages routes
 app.get('/api/messages/conversations', conversationsRoute);

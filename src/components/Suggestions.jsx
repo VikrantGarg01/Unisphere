@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { followUser } from '../api/follow'
-import axios from 'axios'
+import api from '../api'
 
 const Suggestions = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([])
@@ -24,10 +24,7 @@ const Suggestions = () => {
 
   const fetchSuggestions = async () => {
     try {
-      const token = localStorage.getItem('token')
-      const response = await axios.get('http://localhost:3000/api/users/suggestions?limit=5', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      const response = await api.get('/users/suggestions?limit=5')
       setSuggestedUsers(response.data)
     } catch (error) {
       console.error('Error fetching suggestions:', error)

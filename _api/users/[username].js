@@ -16,14 +16,18 @@ export default async function handler(req, res) {
     const decoded = verifyToken(token)
     const currentUserId = decoded.userId
 
-    // Get username from URL parameter
-    const username = req.url.split('/').pop()
+    // Get username from Express route parameter
+    const username = req.params.username
+
+    console.log('[Get User Profile] Looking for username:', username)
 
     // Fetch user data by username
     const users = await query(
       'SELECT id, username, email, bio, profile_image, university, department, created_at FROM users WHERE username = ?',
       [username]
     )
+
+    console.log('[Get User Profile] Found users:', users.length)
 
     if (users.length === 0) {
       return res.status(404).json({ message: 'User not found' })
@@ -52,6 +56,8 @@ export default async function handler(req, res) {
       'SELECT COUNT(*) as count FROM followers WHERE follower_id = ? AND following_id = ?',
       [currentUserId, user.id]
     )
+
+    console.log('[Get User Profile] Returning profile for:', user.username)
 
     res.status(200).json({
       id: user.id,
