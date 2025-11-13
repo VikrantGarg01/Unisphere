@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
     // Fetch user data by username
     const users = await query(
-      'SELECT id, username, email, bio, profile_image, university, department, created_at FROM users WHERE username = ?',
+      'SELECT id, username, email, bio, profile_image, created_at FROM users WHERE username = ?',
       [username]
     )
 
