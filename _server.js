@@ -46,6 +46,7 @@ import followStatsRoute from './_api/follow/stats.js';
 import suggestionsRoute from './_api/users/suggestions.js';
 import updateProfileRoute from './_api/users/update-profile.js';
 import userPostsRoute from './_api/users/[id]/posts.js';
+import userProfileRoute from './_api/users/[username].js';
 
 // Import messages routes
 import conversationsRoute from './_api/messages/conversations.js';
@@ -85,6 +86,7 @@ app.get('/api/stats/:id', followStatsRoute);
 app.get('/api/users/suggestions', suggestionsRoute);
 app.put('/api/users/profile', updateProfileRoute);
 app.get('/api/users/:id/posts', userPostsRoute);
+app.get('/api/users/profile/:username', userProfileRoute);
 
 // Messages routes
 app.get('/api/messages/conversations', conversationsRoute);

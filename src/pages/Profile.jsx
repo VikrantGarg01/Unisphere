@@ -60,42 +60,73 @@ const Profile = () => {
 
     try {
       setLoading(true)
+      setErrorMsg(null)
       
-      // Set basic profile data first
-      setProfileData({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio || 'I am passionate, self-learner',
-        university: 'Chitkara University',
-        department: 'CSE',
-        profile_image: user.profile_image || ''
-      })
-
       // If viewing own profile or no username provided, use current user
-      const isOwn = !username || username === user.username
-      const userId = isOwn ? user.id : null
+      const isOwn = !username || username.toLowerCase() === user.username.toLowerCase()
       
-      if (userId) {
+      if (isOwn) {
+        // Set own profile data from context
+        setProfileData({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          bio: user.bio || 'I am passionate, self-learner',
+          university: user.university || 'Chitkara University',
+          department: user.department || 'CSE',
+          profile_image: user.profile_image || ''
+        })
+
         try {
-          // Fetch stats for the user
-          console.log('[Profile] Fetching stats for userId:', userId)
-          const statsResponse = await api.get(`/stats/${userId}`)
+          // Fetch stats for own profile
+          console.log('[Profile] Fetching stats for own profile, userId:', user.id)
+          const statsResponse = await api.get(`/stats/${user.id}`)
           console.log('[Profile] statsResponse', statsResponse.data)
           setStats({
             postsCount: statsResponse.data.postsCount,
             followersCount: statsResponse.data.followersCount,
             followingCount: statsResponse.data.followingCount
           })
-          setIsFollowing(statsResponse.data.isFollowing)
+          setIsFollowing(false) // Can't follow yourself
         } catch (statsError) {
           console.error('Error fetching stats:', statsError)
           setErrorMsg('Could not load profile stats')
-          // Keep default stats (0, 0, 0)
         }
 
-        // Fetch user's posts
-        await fetchUserPosts(userId)
+        // Fetch own posts
+        await fetchUserPosts(user.id)
+      } else {
+        // Fetch other user's profile by username
+        try {
+          console.log('[Profile] Fetching other user profile:', username)
+          const response = await api.get(`/users/profile/${username}`)
+          console.log('[Profile] User profile response:', response.data)
+          
+          setProfileData({
+            id: response.data.id,
+            username: response.data.username,
+            email: response.data.email,
+            bio: response.data.bio || 'I am passionate, self-learner',
+            university: response.data.university || 'Chitkara University',
+            department: response.data.department || 'CSE',
+            profile_image: response.data.profile_image || ''
+          })
+          
+          setStats({
+            postsCount: response.data.stats.postsCount,
+            followersCount: response.data.stats.followersCount,
+            followingCount: response.data.stats.followingCount
+          })
+          
+          setIsFollowing(response.data.isFollowing)
+          
+          // Fetch their posts
+          await fetchUserPosts(response.data.id)
+        } catch (profileError) {
+          console.error('Error fetching user profile:', profileError)
+          setErrorMsg(profileError.response?.data?.message || 'User not found')
+          setProfileData(null)
+        }
       }
     } catch (error) {
       console.error('Error fetching profile data:', error)
@@ -111,15 +142,7 @@ const Profile = () => {
     } else {
       setLoading(false)
     }
-  }, [username])
-
-  // Fetch posts whenever profileData changes and has an id
-  useEffect(() => {
-    if (profileData?.id) {
-      console.log('[Profile] useEffect triggered, fetching posts for id:', profileData.id)
-      fetchUserPosts(profileData.id)
-    }
-  }, [profileData?.id])
+  }, [username, user?.id])
 
   const handleProfileUpdate = (updatedUser) => {
     // Update local profile data - preserve the id
@@ -213,7 +236,7 @@ const Profile = () => {
                   )}
                 </div>
 
-                {/* Edit Profile Button on Right */}
+                {/* Edit Profile or Follow Button on Right */}
                 {isOwnProfile ? (
                   <button 
                     onClick={() => setIsEditModalOpen(true)}
@@ -226,7 +249,16 @@ const Profile = () => {
                     <span>Edit Profile</span>
                   </button>
                 ) : (
-                  <div className="text-gray-500">Not your profile</div>
+                  <button
+                    onClick={handleFollowToggle}
+                    className={`px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors shadow-md ${
+                      isFollowing
+                        ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        : 'bg-primary text-white hover:bg-blue-700'
+                    }`}
+                  >
+                    {isFollowing ? 'Following' : 'Follow'}
+                  </button>
                 )}
               </div>
 
