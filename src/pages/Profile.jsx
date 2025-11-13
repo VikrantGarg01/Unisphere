@@ -290,15 +290,29 @@ const Profile = () => {
                   <p className="text-sm text-gray-500 font-medium">Posts</p>
                 </div>
                 <div className="h-10 w-px bg-gray-300"></div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-gray-900">{stats.followersCount}</p>
-                  <p className="text-sm text-gray-500 font-medium">Followers</p>
-                </div>
+                {isOwnProfile ? (
+                  <button className="text-center focus:outline-none" onClick={() => window.location.href = '/connections'}>
+                    <p className="text-2xl font-bold text-blue-600 hover:underline">{stats.followersCount}</p>
+                    <p className="text-sm text-gray-500 font-medium">Followers</p>
+                  </button>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-gray-900">{stats.followersCount}</p>
+                    <p className="text-sm text-gray-500 font-medium">Followers</p>
+                  </div>
+                )}
                 <div className="h-10 w-px bg-gray-300"></div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-gray-900">{stats.followingCount}</p>
-                  <p className="text-sm text-gray-500 font-medium">Following</p>
-                </div>
+                {isOwnProfile ? (
+                  <button className="text-center focus:outline-none" onClick={() => window.location.href = '/connections'}>
+                    <p className="text-2xl font-bold text-blue-600 hover:underline">{stats.followingCount}</p>
+                    <p className="text-sm text-gray-500 font-medium">Following</p>
+                  </button>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-gray-900">{stats.followingCount}</p>
+                    <p className="text-sm text-gray-500 font-medium">Following</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
