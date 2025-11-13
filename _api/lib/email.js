@@ -1,8 +1,8 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
 export const sendOTPEmail = async (email, otp) => {
   // Development mode - log OTP to console instead of sending email
-  if (!process.env.RESEND_API_KEY) {
+  if (!process.env.BREVO_SMTP_KEY) {
     console.log('\n' + '='.repeat(60))
     console.log('🔐 DEVELOPMENT MODE - OTP EMAIL')
     console.log('='.repeat(60))
@@ -13,12 +13,21 @@ export const sendOTPEmail = async (email, otp) => {
     return { success: true, devMode: true }
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  // Create transporter using Brevo SMTP
+  const transporter = nodemailer.createTransport({
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    secure: false, // use TLS
+    auth: {
+      user: process.env.BREVO_SMTP_USER || 'noreply.unisphere1@gmail.com',
+      pass: process.env.BREVO_SMTP_KEY
+    }
+  });
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: 'Unisphere <onboarding@resend.dev>',
-      to: [email],
+    const info = await transporter.sendMail({
+      from: '"Unisphere" <noreply.unisphere1@gmail.com>',
+      to: email,
       subject: 'Your Unisphere Verification Code',
       html: `
         <!DOCTYPE html>
@@ -54,16 +63,11 @@ export const sendOTPEmail = async (email, otp) => {
       `
     });
 
-    if (error) {
-      console.error('❌ Resend error:', error);
-      return { success: false, error };
-    }
-
-    console.log(`✅ OTP email sent successfully to ${email}`);
-    return { success: true, data };
+    console.log(`✅ OTP email sent successfully to ${email} (Message ID: ${info.messageId})`);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('❌ Email send error:', error);
-    return { success: false, error };
+    return { success: false, error: error.message };
   }
 }
 
