@@ -107,7 +107,7 @@ const Messages = () => {
   }
 
   const filteredConnections = connections.filter(conn =>
-    conn.username.toLowerCase().includes(searchQuery.toLowerCase())
+    conn.username && conn.username.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   if (loading) {
