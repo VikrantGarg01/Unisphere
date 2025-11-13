@@ -68,27 +68,18 @@ const Messages = () => {
 
   const loadConnections = async () => {
     if (!user) return
-    
     setLoadingConnections(true)
     try {
       const [followersData, followingData] = await Promise.all([
-        getFollowers(user.id),
-        getFollowing(user.id)
+        getFollowers(user.id) || [],
+        getFollowing(user.id) || []
       ])
-      
-      // Combine and deduplicate followers and following
-      const allConnections = [...followersData, ...followingData]
-      const uniqueConnections = allConnections.reduce((acc, current) => {
-        const exists = acc.find(item => item.id === current.id)
-        if (!exists) {
-          acc.push(current)
-        }
-        return acc
-      }, [])
-      
-      setConnections(uniqueConnections)
+      // Always include following list
+      const allConnections = Array.isArray(followingData) ? followingData : []
+      setConnections(allConnections)
     } catch (error) {
       console.error('Error loading connections:', error)
+      setConnections([])
     } finally {
       setLoadingConnections(false)
     }
