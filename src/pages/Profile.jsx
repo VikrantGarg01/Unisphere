@@ -36,7 +36,7 @@ const Profile = () => {
       setPosts(response.data)
       
       // Also refresh stats to update posts count
-      const statsResponse = await api.get(`/stats/${userId}`)
+      const statsResponse = await api.get(`/follow/stats/${userId}`)
       setStats({
         postsCount: statsResponse.data.postsCount,
         followersCount: statsResponse.data.followersCount,
@@ -80,7 +80,7 @@ const Profile = () => {
         try {
           // Fetch stats for own profile
           console.log('[Profile] Fetching stats for own profile, userId:', user.id)
-          const statsResponse = await api.get(`/stats/${user.id}`)
+          const statsResponse = await api.get(`/follow/stats/${user.id}`)
           console.log('[Profile] statsResponse', statsResponse.data)
           setStats({
             postsCount: statsResponse.data.postsCount,
