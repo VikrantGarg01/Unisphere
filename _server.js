@@ -14,12 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware - Configure CORS to allow Vercel frontend
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://unisphere-tawny.vercel.app',
-    /\.vercel\.app$/ // Allow all Vercel preview deployments
-  ],
+  origin: true, // Allow all origins in development, or configure specific domains
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
