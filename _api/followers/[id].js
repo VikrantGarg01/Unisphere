@@ -2,7 +2,8 @@ import { authMiddleware } from '../lib/auth.js'
 import { query } from '../lib/db.js'
 
 async function handler(req, res) {
-  const { id } = req.query
+  // Get id from route params (Express :id parameter)
+  const id = req.params?.id || req.query?.id
 
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' })

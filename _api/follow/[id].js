@@ -2,10 +2,18 @@ import { authMiddleware } from '../lib/auth.js'
 import { query } from '../lib/db.js'
 
 async function handler(req, res) {
-  const { id } = req.query
+  // Get id from route params (Express :id parameter)
+  const id = req.params?.id || req.query?.id
+
+  console.log('[Follow] User ID to follow/unfollow:', id)
+  console.log('[Follow] Current user ID:', req.userId)
 
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' })
+  }
+
+  if (!id) {
+    return res.status(400).json({ message: 'User ID is required' })
   }
 
   try {

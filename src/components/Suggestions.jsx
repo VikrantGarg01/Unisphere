@@ -35,12 +35,14 @@ const Suggestions = () => {
 
   const handleFollow = async (userId) => {
     try {
-      await followUser(userId)
+      const response = await followUser(userId)
+      console.log('Follow response:', response)
       setFollowingIds(prev => new Set([...prev, userId]))
       // Remove the user from suggestions after following
       setSuggestedUsers(prev => prev.filter(user => user.id !== userId))
     } catch (error) {
       console.error('Error following user:', error)
+      alert('Failed to follow user. Please try again.')
     }
   }
 
